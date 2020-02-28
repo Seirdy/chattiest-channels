@@ -1,0 +1,115 @@
+#!/bin/sh
+
+# A CLI utility to determine what IRC channels are most talkative. Written in POSIX
+# sh. the only non-POSIX dependency is an implementation of `date(1)` that supports
+# the `-d` option.
+
+# This script filters out known bots, join/leave messages, channel messages,
+# away indicators, etc. because those over-inflate how busy a channel appears
+
+# This is intended to analyze WeeChat logs.
+
+progname=${0##*/}
+help_text="Usage: $progname [options]
+
+analyze your WeeChat IRC logs to find the most active channels.
+
+  -d, --duration <NUM>  Start counting messages from <NUM> hours ago, rounded down
+                        to the earliest hour. Defaults to 24.
+  -n, --lines    <NUM>  Show only the <NUM> most active channels. Defaults to showing
+                        results from all available log files.
+  -h, --help            Print this help and exit
+"
+
+usage() {
+	if [ $# -gt 0 ]; then
+		printf '%s: %s\n' "$progname" "$*"
+	fi
+	printf '%s' "$help_text"
+}
+
+bad_usage() {
+	usage "$*" >&2
+	exit 1
+}
+
+# parse arguments
+while [ $# -gt 0 ]; do
+	key="$1"
+	case $key in
+		-d | --duration)
+			if [ "$2" -ge 0 ] 2>/dev/null; then
+				hours="$2"
+			else
+				bad_usage "option $key requires an integer value"
+			fi
+			shift
+			shift
+			;;
+		-n | --lines)
+			if [ "$2" -ge 0 ] 2>/dev/null; then
+				lines="$2"
+			else
+				bad_usage "option $key requires an integer value"
+			fi
+			shift
+			shift
+			;;
+		-h | --help)
+			usage
+			exit 0
+			;;
+		*)
+			bad_usage "unrecognized option $key"
+			;;
+	esac
+done
+
+seconds=$((${hours:-24} * 3600)) # how many seconds ago to look
+log_dir="${WEECHAT_HOME-${HOME-~}/.weechat}/logs"
+
+# Define some strings to use when performing regex operations
+# {{{
+ansi_escape='\x1B\[[0-9;]*[JKmsu]'
+
+# example: 2020-02-22 19:43:20
+msg_prefix='^20[0-9].-[0-1][0-9]-[0-3][0-9] [0-2][0-9]:[0-5][0-9]:[0-5][0-9]\s*'
+
+# filter out bots. Nick prefixes should be ignored:
+nick_prefix='\+|%|@'
+# List the bot nicks; we ignore them.
+bots_snoonet='ShinyMetal|gonzobot|SubWatch'
+# Pelosi on efnet; #mockturtle on freenode.#lobsters; JARVIS on 2600net;
+#weebot on freenode.#weechat, Internets and YT-info on rizon.#chat
+bots="$bots_snoonet|gitter|Pelosi|mockturtle|weebot|JARVIS|Internets|YT-info"
+
+# entries starting with '--' are channel messages
+# entries starting with '-->' or '<--' are join or leave messages.
+join_leave_chanmsg='-->?|<--'
+# filter out join/leave, channel messages, bots, and /away messages
+filter_out="^(($join_leave_chanmsg|($nick_prefix)?($bots))\s|^\[.* away: .*]$)"
+# }}}
+
+date_start="$(date -d @"$(($(date +%s) - seconds))" '+%Y-%m-%d %H')"
+echo "chattiest channels since $date_start:00"
+full_output() {
+	{
+		for file in "$log_dir"/irc.*.[#]*.weechatlog; do
+			# trim filename to strip leading "irc." and trailing ".weechatlog"
+			channel="${file#*irc.}"
+			echo "${channel%*.weechatlog}" "$(
+				sed -n -e "s/$ansi_escape//g" -e "/^$date_start/,\$p" "$file" \
+					| sed -e "s/$msg_prefix//g" \
+					| grep -Ecv "$filter_out"
+			)"
+		done
+	} | sort -n -k 2 -r
+}
+
+if [ -n "$lines" ]; then
+	full_output | sed "${lines}q" | nl -w2 -s'. '
+else
+	full_output | nl -w2 -s'. '
+fi
+
+# vi:ft=sh
