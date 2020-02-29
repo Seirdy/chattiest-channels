@@ -50,31 +50,28 @@ Example
 Print the top 20 most active channels from the last 48-49 hours.
 
 ```
-$ date +"%Y-%m-%dT%H:%M:%S%:z"
-2020-02-28T07:23:17-08:00
-
 $ chattiest-channels -n 20 -d 48
-chattiest channels since 2020-02-26 07:00
- 1. snoonet.#gnulag 6386
- 2. freenode.##linux 5036
- 3. rizon.#chat 4538
- 4. freenode.#reddit 2612
- 5. slashnet.#xkcd 2506
- 6. 2600net.#2600 2386
- 7. ircnet.#worldchat 2253
- 8. snoonet.#portland 2144
- 9. darkscience.#darkscience 1935
-10. freenode.##chat 1934
-11. darwin.#darwin 1890
-12. rizon.#rice 1329
-13. efnet.#computers 1274
-14. snoonet.#redoxmasterrace 988
-15. freenode.#lobsters-boil 966
-16. freenode.#fedora 811
-17. freenode.#alacritty 791
-18. freenode.#lobsters 756
-19. cyberia.#cyberia 749
-20. freenode.#cat-v 715
+chattiest channels from 2020-02-27 01:00 to 2020-02-29 01:42 PST
+ 1. snoonet.#gnulag 6415
+ 2. rizon.#chat 5429
+ 3. freenode.##linux 5058
+ 4. ircnet.#worldchat 3478
+ 5. freenode.#reddit 2756
+ 6. slashnet.#xkcd 2446
+ 7. snoonet.#portland 2419
+ 8. darkscience.#darkscience 2178
+ 9. 2600net.#2600 2153
+10. efnet.#computers 2022
+11. freenode.##chat 1761
+12. snoonet.#redoxmasterrace 1693
+13. rizon.#rice 1415
+14. freenode.#podman 947
+15. freenode.#lobsters-boil 932
+16. freenode.#lobsters 911
+17. freenode.#cat-v 887
+18. freenode.#fsf 695
+19. freenode.#fedora 684
+20. cyberia.#cyberia 584
 ```
 
 [sourcehut]: https://img.shields.io/badge/repository-sourcehut-lightgrey.svg?logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSINCiAgICB3aWR0aD0iMTI4IiBoZWlnaHQ9IjEyOCI+DQogIDxkZWZzPg0KICAgIDxmaWx0ZXIgaWQ9InNoYWRvdyIgeD0iLTEwJSIgeT0iLTEwJSIgd2lkdGg9IjEyNSUiIGhlaWdodD0iMTI1JSI+DQogICAgICA8ZmVEcm9wU2hhZG93IGR4PSIwIiBkeT0iMCIgc3RkRGV2aWF0aW9uPSIxLjUiDQogICAgICAgIGZsb29kLWNvbG9yPSJibGFjayIgLz4NCiAgICA8L2ZpbHRlcj4NCiAgICA8ZmlsdGVyIGlkPSJ0ZXh0LXNoYWRvdyIgeD0iLTEwJSIgeT0iLTEwJSIgd2lkdGg9IjEyNSUiIGhlaWdodD0iMTI1JSI+DQogICAgICA8ZmVEcm9wU2hhZG93IGR4PSIwIiBkeT0iMCIgc3RkRGV2aWF0aW9uPSIxLjUiDQogICAgICAgIGZsb29kLWNvbG9yPSIjQUFBIiAvPg0KICAgIDwvZmlsdGVyPg0KICA8L2RlZnM+DQogIDxjaXJjbGUgY3g9IjUwJSIgY3k9IjUwJSIgcj0iMzglIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjQlIg0KICAgIGZpbGw9Im5vbmUiIGZpbHRlcj0idXJsKCNzaGFkb3cpIiAvPg0KICA8Y2lyY2xlIGN4PSI1MCUiIGN5PSI1MCUiIHI9IjM4JSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSI0JSINCiAgICBmaWxsPSJub25lIiBmaWx0ZXI9InVybCgjc2hhZG93KSIgLz4NCjwvc3ZnPg0KCg==

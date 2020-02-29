@@ -92,7 +92,7 @@ filter_out="^(($join_leave_chanmsg|($nick_prefix)?($bots))\s|^\[.* away: .*]$)"
 # }}}
 
 date_start="$(date -d @"$(($(date +%s) - seconds))" '+%Y-%m-%d %H')"
-echo "chattiest channels since $date_start:00"
+echo "chattiest channels from $date_start:00 to $(date '+%Y-%m-%d %H:%M %Z')"
 full_output() {
 	{
 		for file in "$log_dir"/irc.*.[#]*.weechatlog; do
