@@ -78,10 +78,11 @@ msg_prefix='^20[0-9].-[0-1][0-9]-[0-3][0-9] [0-2][0-9]:[0-5][0-9]:[0-5][0-9]\s*'
 # filter out bots. Nick prefixes should be ignored:
 nick_prefix='\+|%|@'
 # List the bot nicks; we ignore them.
-bots_snoonet='ShinyMetal|gonzobot|SubWatch'
+snoobots='ShinyMetal|gonzobot|SubWatch'
 # Pelosi on efnet; #mockturtle on freenode.#lobsters; JARVIS on 2600net;
-#weebot on freenode.#weechat, Internets and YT-info on rizon.#chat
-bots="$bots_snoonet|gitter|Pelosi|mockturtle|weebot|JARVIS|Internets|YT-info"
+# weebot on freenode.#weechat; Internets, ChanStat, and  YT-info on
+# rizon.#chat
+bots="$snoobots|gitter|Pelosi|mockturtle|weebot|JARVIS|ChanStat|Internets|YT-info"
 
 # entries starting with '--' are channel messages
 # entries starting with '-->' or '<--' are join or leave messages.
