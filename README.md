@@ -15,6 +15,12 @@ the remaining lines across a given time interval.
 By default, it analyzes the last 24-25 hours of logs; however, it can take an
 optional parameter to specify a custom number of hours to search back.
 
+Try it now, without installing anything:
+
+``` sh
+sh -c "$(curl -sSL 'https://git.sr.ht/~seirdy/chattiest-channels/blob/master/chattiest-channels')" - -n 20
+```
+
 Dependencies
 ------------
 
