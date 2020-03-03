@@ -65,7 +65,11 @@ while [ $# -gt 0 ]; do
 	esac
 done
 
-seconds=$((${hours:-24} * 3600)) # how many seconds ago to look
+# The earliest timestamp to use when searching channel logs. Calculated
+# by subtracting the right number of seconds from the current UNIX
+# timestamp. The timestamp stops at the hour; it lacks minutes/seconds.
+date_start="$(date -d @"$(($(date +%s) - $((${hours:-24} * 3600))))" '+%Y-%m-%d %H')"
+# where logs are stored
 log_dir="${WEECHAT_HOME-${HOME-~}/.weechat}/logs"
 
 # Define some strings to use when performing regex operations
@@ -82,6 +86,7 @@ snoobots='ShinyMetal|gonzobot|SubWatch'
 # Pelosi on efnet; #mockturtle on freenode.#lobsters; JARVIS on 2600net;
 # weebot on freenode.#weechat; Internets, ChanStat, and  YT-info on
 # rizon; zeta on darkscience.
+# TODO: filter these out on a per-network basis
 bots="$snoobots|gitter|zeta|Pelosi|mockturtle|weebot|JARVIS|ChanStat|Internets|YT-info"
 
 # entries starting with '--' are channel messages
@@ -91,26 +96,36 @@ join_leave_chanmsg='-->?|<--'
 filter_out="^(($join_leave_chanmsg|($nick_prefix)?($bots))\s|^\[.* away: .*]$)"
 # }}}
 
-date_start="$(date -d @"$(($(date +%s) - seconds))" '+%Y-%m-%d %H')"
-echo "chattiest channels from $date_start:00 to $(date '+%Y-%m-%d %H:%M %Z')"
+# opening message!
+echo "channel stats from $date_start:00 to $(date '+%Y-%m-%d %H:%M %Z')"
+
+# Output every channel and its number of messages after filtering out
+# fluff. Add a last line containing an integer representing the total
+# number of messages.
 full_output() {
-	{
-		for file in "$log_dir"/irc.*.[#]*.weechatlog; do
-			# trim filename to strip leading "irc." and trailing ".weechatlog"
-			channel="${file#*irc.}"
-			echo "${channel%*.weechatlog}" "$(
-				sed -n -e "s/$ansi_escape//g" -e "/^$date_start/,\$p" "$file" \
-					| sed -e "s/$msg_prefix//g" \
-					| grep -Ecv "$filter_out"
-			)"
-		done
-	} | sort -n -k 2 -r
+	for file in "$log_dir"/irc.*.[#]*.weechatlog; do
+		# trim filename to strip leading "irc." and trailing ".weechatlog"
+		channel="${file#*irc.}"
+		# the number of real user messages in this channel across the given time range
+		current_count="$(
+			sed -n -e "s/$ansi_escape//g" -e "/^$date_start/,\$p" "$file" \
+				| sed -e "s/$msg_prefix//g" \
+				| grep -Ecv "$filter_out"
+		)"
+		# increase the total number messages across all IRC channels
+		total="$((total + current_count))"
+		echo "${channel%*.weechatlog}" "$current_count"
+	done
+	echo "$total"
 }
 
+all_stats="$(full_output)"
+echo "total messages: $(echo "$all_stats" | tail -n 1)"
+echo "chattiest channels: "
 if [ -n "$lines" ]; then
-	full_output | sed "${lines}q" | nl -w2 -s'. '
+	echo "$all_stats" | sort -n -k 2 -r | sed "${lines}q" | nl -w2 -s'. '
 else
-	full_output | nl -w2 -s'. '
+	echo "$all_stats" | sort -n -k 2 -r | nl -w2 -s'. '
 fi
 
 # vi:ft=sh
