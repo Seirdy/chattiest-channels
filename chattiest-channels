@@ -81,8 +81,8 @@ nick_prefix='\+|%|@'
 snoobots='ShinyMetal|gonzobot|SubWatch'
 # Pelosi on efnet; #mockturtle on freenode.#lobsters; JARVIS on 2600net;
 # weebot on freenode.#weechat; Internets, ChanStat, and  YT-info on
-# rizon.#chat
-bots="$snoobots|gitter|Pelosi|mockturtle|weebot|JARVIS|ChanStat|Internets|YT-info"
+# rizon; zeta on darkscience.
+bots="$snoobots|gitter|zeta|Pelosi|mockturtle|weebot|JARVIS|ChanStat|Internets|YT-info"
 
 # entries starting with '--' are channel messages
 # entries starting with '-->' or '<--' are join or leave messages.
