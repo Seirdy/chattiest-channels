@@ -121,7 +121,7 @@ full_output() {
 
 all_stats="$(full_output)"
 echo "total messages: $(echo "$all_stats" | tail -n 1)"
-echo "chattiest channels: "
+echo "chattiest channels:"
 if [ -n "$lines" ]; then
 	echo "$all_stats" | sort -n -k 2 -r | sed "${lines}q" | nl -w2 -s'. '
 else
