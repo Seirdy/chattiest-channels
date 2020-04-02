@@ -8,6 +8,7 @@
 # away indicators, etc. because those over-inflate how busy a channel appears
 
 # This is intended to analyze WeeChat logs.
+# TODO: merge multiple consecutive messages from the same nick
 
 progname=${0##*/}
 help_text="Usage: $progname [options]
@@ -106,11 +107,14 @@ full_output() {
 	for file in "$log_dir"/irc.*.[#]*.weechatlog; do
 		# trim filename to strip leading "irc." and trailing ".weechatlog"
 		channel="${file#*irc.}"
+		filter_out="^(($join_leave_chanmsg|($nick_prefix)?($bots))\s|^\[.* away: .*]$)"
 		# the number of real user messages in this channel across the given time range
+		# merge multiple consecutive messages from the same user
 		current_count="$(
 			sed -n -e "s/$ansi_escape//g" -e "/^$date_start/,\$p" "$file" \
 				| sed -e "s/$msg_prefix//g" \
-				| grep -Ecv "$filter_out"
+				| grep -Ev "$filter_out" \
+				| awk '{print $1}' | uniq | wc -l
 		)"
 		# increase the total number messages across all IRC channels
 		total="$((total + current_count))"
