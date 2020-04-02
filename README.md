@@ -21,6 +21,21 @@ Try it now, without installing anything:
 sh -c "$(curl -sSL 'https://git.sr.ht/~seirdy/chattiest-channels/blob/master/chattiest-channels')" - -n 20
 ```
 
+Flood mitigation
+----------------
+
+Mitigating the effects of spam and flooding continues to be an ongoing challenge.
+Current measures include:
+
+- Merging consecutive messages from the same nick
+- Filtering out known bots
+
+Areas of improvement:
+
+- Filtering out messages containing a lot of escape sequences (since these usually
+  aren't part of a discussion)
+- Filter out bots on a per-network or per-channel basis to avoid false positives
+
 Dependencies
 ------------
 
@@ -32,7 +47,7 @@ coreutils, BusyBox, FreeBSD, and macOS satisfy this condition.
 Usage
 -----
 
-```
+``` text
 Usage: chattiest-channels [options]
 
 analyze your WeeChat IRC logs to find the most active channels.
@@ -49,7 +64,7 @@ Example
 
 Print the top 20 most active channels from the last 48-49 hours.
 
-```
+``` text
 $ chattiest-channels -n 25 -d 48
 channel stats from 2020-03-24 13:00 to 2020-03-26 13:09 PDT
 total messages: 81092

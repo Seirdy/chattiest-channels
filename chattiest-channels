@@ -86,10 +86,10 @@ nick_prefix='\+|%|@'
 snoobots='ShinyMetal|gonzobot|SubWatch'
 # Pelosi on efnet; #mockturtle on freenode.#lobsters; JARVIS on
 # 2600net; weebot on freenode.#weechat; Internets, ChanStat, and
-# YT-info on rizon; zeta on darkscience; Mafalda and SouthBay on gotham
+# YT-info on rizon; zeta on darkscience; Mafalda and SouthBay on
+# gotham; scroll, CANCER, and FAGGOTXXX on #supernets
 # TODO: filter these out on a per-network basis
-bots="$snoobots|gitter|zeta|Pelosi|mockturtle|weebot|JARVIS|ChanStat|Internets|YT-info|Mafalda|SouthBay"
-
+bots="$snoobots|gitter|zeta|Pelosi|mockturtle|weebot|JARVIS|ChanStat|Internets|YT-info|Mafalda|SouthBay|scroll|FAGGOT[0-9]*|CANCER|FUCKYOU"
 # entries starting with '--' are channel messages
 # entries starting with '-->' or '<--' are join or leave messages.
 join_leave_chanmsg='-->?|<--'
@@ -104,7 +104,8 @@ echo "channel stats from $date_start:00 to $(date '+%Y-%m-%d %H:%M %Z')"
 # fluff. Add a last line containing an integer representing the total
 # number of messages.
 full_output() {
-	for file in "$log_dir"/irc.*.[#]*.weechatlog; do
+	logfiles=$(echo "$log_dir"/irc.*.[#]*.weechatlog | tr ' ' '\n' | grep -v 'irc\.supernets\.#superbowl.weechatlog$')
+	for file in $logfiles; do
 		# trim filename to strip leading "irc." and trailing ".weechatlog"
 		channel="${file#*irc.}"
 		filter_out="^(($join_leave_chanmsg|($nick_prefix)?($bots))\s|^\[.* away: .*]$)"
