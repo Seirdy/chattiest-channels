@@ -127,10 +127,43 @@ full_output() {
 all_stats="$(full_output)"
 echo "total messages: $(echo "$all_stats" | tail -n 1)"
 echo "chattiest channels:"
-if [ -n "$lines" ]; then
-	echo "$all_stats" | sort -n -k 2 -r | sed "${lines}q" | nl -w2 -s'. '
+
+# sort channels in descending order of chattiness
+unnumbered_output() {
+	{
+		if [ -n "$lines" ]; then
+			echo "$all_stats" | sort -n -k 2 -r | sed "${lines}q"
+		else
+			echo "$all_stats" | sort -n -k 2 -r
+		fi
+	} | nl -w2 -s'. '
+}
+
+# columnate unnumbered_output.
+# Use an AWK script if the "column" command isn't available.
+if command -v columnn >/dev/null; then
+	unnumbered_output | column -t
 else
-	echo "$all_stats" | sort -n -k 2 -r | nl -w2 -s'. '
+	# based on https://github.com/janosgyerik/shellscripts/blob/master/awk/column.awk
+	# shellcheck disable=SC2016
+	awk_column='
+	{
+		lines[NR] = $0;
+		for (i = 1; i <= NF; i++) {
+			if (length($i) > widths[i]) widths[i] = length($i);
+		}
+	}
+
+	END {
+		for (i = 1; i <= NR; i++) {
+			$0 = lines[i];
+			for (j = 1; j < NF; j++) {
+				printf sprintf("%-" (widths[j] + 2) "s", $j);
+			}
+			print $j;
+		}
+	}'
+	unnumbered_output | awk "$awk_column"
 fi
 
 # vi:ft=sh
