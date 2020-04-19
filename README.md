@@ -66,44 +66,42 @@ Print the top 20 most active channels from the last 48-49 hours.
 
 ``` text
 $ chattiest-channels -n 35 -d 24
-channel stats from 2020-04-02 22:00 to 2020-04-03 22:24 PDT
-total messages: 38527
+channel stats from 2020-04-17 22:00 to 2020-04-18 22:08 PDT
+total messages: 29460
 chattiest channels:
-1.   rizon.#chat                  4232
-2.   efnet.#lrh                   3134
-3.   snoonet.#gnulag              2989
-4.   freenode.#python             2309
-5.   ircnet.#worldchat            2206
-6.   freenode.#anime              2119
-7.   darwin.#darwin               2034
-8.   freenode.##linux             1973
-9.   freenode.##chat              1512
-10.  tilde_chat.#meta             1455
-11.  darkscience.#darkscience     1156
-12.  quakenet.#quarantine         1154
-13.  gotham.#funchat              987
-14.  snoonet.#portland            812
-15.  rizon.#rice                  777
-16.  snoonet.#redoxmasterrace     772
-17.  efnet.#computers             769
-18.  slashnet.#xkcd               680
-19.  2600net.#2600                672
-20.  snoonet.##dataclonefreezone  604
-21.  gotham.#gotham               542
-22.  quakenet.#anime              472
-23.  tilde_chat.#covid19          461
-24.  gotham.#twilightzone         454
-25.  freenode.#fsf                447
-26.  freenode.#alacritty          426
-27.  freenode.#reddit             381
-28.  freenode.#lobsters           359
-29.  slashnet.#compsci            292
-30.  freenode.#fedora             255
-31.  snoonet.#linuxmasterrace     203
-32.  freenode.##anime             169
-33.  grepnet.#chats               168
-34.  freenode.#sway               140
-35.  freenode.#tmux               139
+1.   snoonet.#gnulag           3533
+2.   ircnet.#worldchat         3497
+3.   freenode.#python          2441
+4.   freenode.##linux          2362
+5.   rizon.#chat               1959
+6.   tilde_chat.#meta          1447
+7.   freenode.#anime           1422
+8.   2600net.#2600             1150
+9.   freenode.##chat           1093
+10.  gotham.#funchat           921
+11.  quakenet.#anime           914
+12.  rizon.#rice               866
+13.  snoonet.#linuxmasterrace  826
+14.  slashnet.#xkcd            746
+15.  rizon.#8_a_               688
+16.  freenode.#cat-v           643
+17.  darkscience.#darkscience  613
+18.  quakenet.#quarantine      572
+19.  efnet.#computers          497
+20.  gotham.#gotham            274
+21.  freenode.#tmux            221
+22.  freenode.#sway            219
+23.  gotham.#twilightzone      201
+24.  freenode.#minetest        158
+25.  freenode.#lobsters        149
+26.  freenode.##anime          140
+27.  freenode.#fedora          135
+28.  snoonet.#portland         128
+29.  freenode.#reddit          118
+30.  freenode.#firefox         78
+31.  ircnet.#ircnet            77
+32.  supernets.#superbowl      60
+33.  rizon.#rizon              50
 ```
 
 <!--
